@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Arctis Control
+GenericName=Headset Control Panel
+Comment=SteelSeries Arctis Nova Pro control panel
+Exec=arctis-control
+TryExec=arctis-control
+Icon=arctis-control
+Terminal=false
+Categories=AudioVideo;Audio;
+Keywords=steelseries;arctis;headset;anc;chatmix;equalizer;mic;
+StartupWMClass=arctis-control
+StartupNotify=true

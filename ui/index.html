@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Arctis Control</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></symbol>
+        <symbol id="i-eq" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" /></symbol>
+        <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3" /><path d="M5 10a7 7 0 0 0 14 0M12 17v4M8 21h8" /></symbol>
+        <symbol id="i-mix" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /><path d="M12 12 16.5 7.5M12 4v2M20 12h-2M4 12h2" /></symbol>
+        <symbol id="i-headset" viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2" /><rect x="2" y="14" width="5" height="7" rx="2" /><rect x="17" y="14" width="5" height="7" rx="2" /></symbol>
+        <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" /></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z" /></symbol>
+        <symbol id="i-ear" viewBox="0 0 24 24"><path d="M6 8.5a6 6 0 1 1 12 0c0 3.5-3 4.5-3 7.5a3 3 0 0 1-6 0" /><path d="M9.5 9a2.5 2.5 0 0 1 5 0" /></symbol>
+        <symbol id="i-off" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M5.6 5.6l12.8 12.8" /></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" /></symbol>
+        <symbol id="i-rec" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" /></symbol>
+        <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7" /></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8M21 3v5h-5" /></symbol>
+      </defs>
+    </svg>
+
+    <div class="shell">
+      <nav class="sidebar" aria-label="Sections">
+        <div class="brand"><span class="mark"></span><span>Arctis Control</span></div>
+        <button class="nav active" data-page="overview"><svg><use href="#i-home" /></svg><span>Overview</span></button>
+        <button class="nav" data-page="eq"><svg><use href="#i-eq" /></svg><span>Equalizer</span></button>
+        <button class="nav" data-page="mic"><svg><use href="#i-mic" /></svg><span>Microphone</span></button>
+        <button class="nav" data-page="chatmix"><svg><use href="#i-mix" /></svg><span>ChatMix</span></button>
+        <button class="nav" data-page="headset"><svg><use href="#i-headset" /></svg><span>Headset</span></button>
+        <button class="nav" data-page="settings"><svg><use href="#i-gear" /></svg><span>Settings</span></button>
+        <div class="side-status" id="side-status">
+          <span class="dot"></span>
+          <div><strong id="side-title">Connecting…</strong><small id="side-sub">looking for the base station</small></div>
+        </div>
+      </nav>
+
+      <main>
+        <!-- ============================================ Overview -->
+        <section class="page active" id="page-overview">
+          <header class="page-head">
+            <div>
+              <p class="eyebrow">SteelSeries</p>
+              <h1>Arctis Nova Pro Wireless</h1>
+            </div>
+            <button class="icon-btn" id="refresh" title="Refresh now"><svg><use href="#i-refresh" /></svg></button>
+          </header>
+
+          <div class="offline-banner" id="offline" hidden>
+            <strong>Base station not found.</strong>
+            <span id="offline-reason">Check the USB cable, then press refresh.</span>
+          </div>
+
+          <div class="batteries">
+            <article class="card battery-card" id="bat-headset">
+              <div class="gauge" id="gauge-headset"><svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52" /><circle class="fill" cx="60" cy="60" r="52" /></svg><div class="gauge-text"><span class="pct">--</span><small>%</small></div></div>
+              <div class="battery-info">
+                <p class="label">Headset battery</p>
+                <p class="big-state" id="headset-state">—</p>
+                <p class="muted" id="headset-detail"></p>
+              </div>
+            </article>
+            <article class="card battery-card" id="bat-spare">
+              <div class="gauge" id="gauge-spare"><svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52" /><circle class="fill" cx="60" cy="60" r="52" /></svg><div class="gauge-text"><span class="pct">--</span><small>%</small></div></div>
+              <div class="battery-info">
+                <p class="label">Spare battery</p>
+                <p class="big-state" id="spare-state">—</p>
+                <p class="muted" id="spare-detail"></p>
+              </div>
+            </article>
+          </div>
+
+          <div class="callout" id="swap-hint" hidden>
+            <svg><use href="#i-swap" /></svg>
+            <div><strong>Time to swap.</strong> <span id="swap-text"></span></div>
+          </div>
+
+          <article class="card">
+            <div class="card-head"><h2>Noise control</h2><p class="muted" id="nc-desc"></p></div>
+            <div class="mode-picker" id="noise-control" role="radiogroup" aria-label="Noise control">
+              <button data-mode="2" role="radio"><svg><use href="#i-shield" /></svg><span>Noise cancelling</span></button>
+              <button data-mode="1" role="radio"><svg><use href="#i-ear" /></svg><span>Transparency</span></button>
+              <button data-mode="0" role="radio"><svg><use href="#i-off" /></svg><span>Off</span></button>
+            </div>
+          </article>
+
+          <div class="tiles">
+            <button class="card tile" data-goto="mic">
+              <div class="tile-top"><svg><use href="#i-mic" /></svg><span class="pill" id="tile-mic-pill">Off</span></div>
+              <strong>Studio microphone</strong>
+              <span class="muted" id="tile-mic">Noise removal, compression &amp; EQ</span>
+            </button>
+            <button class="card tile" data-goto="eq">
+              <div class="tile-top"><svg><use href="#i-eq" /></svg><span class="pill" id="tile-eq-pill">On</span></div>
+              <strong>Equalizer</strong>
+              <span class="muted" id="tile-eq">Flat</span>
+            </button>
+            <button class="card tile" data-goto="chatmix">
+              <div class="tile-top"><svg><use href="#i-mix" /></svg><span class="pill" id="tile-cm-pill">Off</span></div>
+              <strong>ChatMix</strong>
+              <span class="muted" id="tile-cm">Balance game and voice chat</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ============================================ Equalizer -->
+        <section class="page" id="page-eq">
+          <header class="page-head">
+            <div>
+              <p class="eyebrow">Sound</p>
+              <h1>Equalizer</h1>
+            </div>
+            <label class="switch-row" title="Play the headset flat without losing your curve">
+              <span>Bypass</span><input type="checkbox" class="switch" id="eq-bypass" />
+            </label>
+          </header>
+
+          <article class="card eq-card">
+            <div class="eq-graph-wrap">
+              <canvas id="eq-canvas" aria-label="Equalizer curve; drag the points"></canvas>
+              <div class="eq-name" id="eq-name">Flat</div>
+            </div>
+            <div class="bands" id="bands"></div>
+            <p class="fine">Drag a point or slider · double-click to zero a band · scroll for 0.5 dB steps · stored in the headset</p>
+          </article>
+
+          <article class="card">
+            <div class="card-head row">
+              <h2>Presets</h2>
+              <form class="save-row" id="eq-save-form">
+                <input type="text" id="eq-save-name" maxlength="40" placeholder="Name this curve" />
+                <button class="primary small" type="submit">Save</button>
+              </form>
+            </div>
+            <div class="chips" id="eq-presets"></div>
+            <h3 class="sub" id="eq-user-title" hidden>Your presets</h3>
+            <div class="chips" id="eq-user-presets"></div>
+          </article>
+        </section>
+
+        <!-- ============================================ Microphone -->
+        <section class="page" id="page-mic">
+          <header class="page-head">
+            <div>
+              <p class="eyebrow">Voice</p>
+              <h1>Studio microphone</h1>
+            </div>
+            <label class="switch-row big"><span id="mic-switch-label">Off</span><input type="checkbox" class="switch" id="mic-enabled" /></label>
+          </header>
+
+          <article class="card">
+            <div class="mic-status">
+              <span class="status-dot" id="mic-dot"></span>
+              <div class="grow">
+                <strong id="mic-state">Checking…</strong>
+                <p class="muted" id="mic-detail"></p>
+              </div>
+              <button class="ghost small" id="mic-default" hidden>Make default input</button>
+            </div>
+            <div class="meters">
+              <div class="meter-row"><span>Raw mic</span><div class="meter" id="meter-raw"><i class="rms"></i><i class="peak"></i></div><output id="meter-raw-val">—</output></div>
+              <div class="meter-row"><span>Studio</span><div class="meter" id="meter-studio"><i class="rms"></i><i class="peak"></i></div><output id="meter-studio-val">—</output></div>
+            </div>
+            <p class="fine warn" id="mic-warn" hidden></p>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2>Voice preset</h2><p class="muted">Starting points — fine-tune anything below.</p></div>
+            <div class="preset-grid" id="mic-presets"></div>
+          </article>
+
+          <div class="grid-2">
+            <article class="card">
+              <div class="card-head row"><h2>Noise removal</h2><input type="checkbox" class="switch" id="mic-ns" aria-label="Noise removal" /></div>
+              <p class="muted">AI noise suppression removes fans, keyboards and room hum.</p>
+              <div class="field"><label>Engine</label>
+                <div class="seg" id="mic-engine">
+                  <button data-engine="deepfilter">DeepFilterNet</button>
+                  <button data-engine="rnnoise">RNNoise</button>
+                </div>
+              </div>
+              <div class="field"><label for="mic-ns-strength">Strength <output id="mic-ns-strength-val"></output></label><input type="range" id="mic-ns-strength" min="0" max="100" step="5" /></div>
+              <div class="field">
+                <label for="mic-gate-threshold">Noise gate <input type="checkbox" class="switch small-switch" id="mic-gate" aria-label="Noise gate" /><output id="mic-gate-threshold-val"></output></label>
+                <input type="range" id="mic-gate-threshold" min="-80" max="-20" step="1" />
+                <small class="fine">Mutes everything quieter than this between words.</small>
+              </div>
+              <div class="field"><label for="mic-breath">Breath reduction <output id="mic-breath-val"></output></label><input type="range" id="mic-breath" min="0" max="30" step="1" /><small class="fine">Turns down breathing through the mouth or nose between words. Keeps “s” and “sh”.</small></div>
+            </article>
+            <article class="card">
+              <div class="card-head"><h2>Level</h2></div>
+              <div class="field"><label for="mic-hw">Headset mic gain <output id="mic-hw-val"></output></label><input type="range" id="mic-hw" min="1" max="10" step="1" /></div>
+              <div class="field"><label for="mic-leveler">Leveler <output id="mic-leveler-val"></output></label><input type="range" id="mic-leveler" min="0" max="100" step="1" /><small class="fine">Rides your volume like an engineer on the fader — soft and loud speech come out even.</small></div>
+              <div class="field"><label for="mic-comp-amount">Compression <output id="mic-comp-amount-val"></output></label><input type="range" id="mic-comp-amount" min="0" max="100" step="1" /><small class="fine">Adds density and punch — the “radio” sound.</small></div>
+              <div class="field"><label for="mic-out">Output volume <output id="mic-out-val"></output></label><input type="range" id="mic-out" min="-12" max="12" step="0.5" /></div>
+            </article>
+          </div>
+
+          <article class="card">
+            <div class="card-head"><h2>Character</h2><p class="muted">What makes a headset mic sound like a studio microphone.</p></div>
+            <div class="tone-grid three">
+              <div class="field"><label for="mic-depth">Depth <small>150 Hz</small><output id="mic-depth-val"></output></label><input type="range" id="mic-depth" min="-3" max="10" step="0.5" /><small class="fine">Chest resonance of a deep voice.</small></div>
+              <div class="field"><label for="mic-body">Bass body <output id="mic-body-val"></output></label><input type="range" id="mic-body" min="0" max="100" step="1" /><small class="fine">Adds the low harmonics a small capsule can’t capture.</small></div>
+              <div class="field"><label for="mic-tube">Tube warmth <output id="mic-tube-val"></output></label><input type="range" id="mic-tube" min="0" max="100" step="1" /><small class="fine">Analog-style saturation for a rich, dense tone.</small></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2>Tone</h2><p class="muted">Shape your voice. Changes are instant.</p></div>
+            <div class="tone-grid">
+              <div class="field"><label for="mic-warmth">Warmth <small>200 Hz</small><output id="mic-warmth-val"></output></label><input type="range" id="mic-warmth" min="-6" max="8" step="0.5" /></div>
+              <div class="field"><label for="mic-mud">Mud <small>500 Hz</small><output id="mic-mud-val"></output></label><input type="range" id="mic-mud" min="-10" max="4" step="0.5" /></div>
+              <div class="field"><label for="mic-clarity">Clarity <small>3.8 kHz</small><output id="mic-clarity-val"></output></label><input type="range" id="mic-clarity" min="-6" max="10" step="0.5" /></div>
+              <div class="field"><label for="mic-air">Air <small>10 kHz</small><output id="mic-air-val"></output></label><input type="range" id="mic-air" min="-6" max="10" step="0.5" /></div>
+            </div>
+          </article>
+
+          <details class="card advanced">
+            <summary><span><h2>Advanced</h2><span class="muted">Compressor, de-esser, filters</span></span></summary>
+            <div class="adv-grid">
+              <div class="field"><label for="mic-hp">Low cut <output id="mic-hp-val"></output></label><input type="range" id="mic-hp" min="20" max="250" step="5" /></div>
+              <div class="field"><label for="mic-cthr">Compressor threshold <output id="mic-cthr-val"></output></label><input type="range" id="mic-cthr" min="-50" max="0" step="1" /></div>
+              <div class="field"><label for="mic-cratio">Ratio <output id="mic-cratio-val"></output></label><input type="range" id="mic-cratio" min="1" max="10" step="0.1" /></div>
+              <div class="field"><label for="mic-catt">Attack <output id="mic-catt-val"></output></label><input type="range" id="mic-catt" min="0.5" max="50" step="0.5" /></div>
+              <div class="field"><label for="mic-crel">Release <output id="mic-crel-val"></output></label><input type="range" id="mic-crel" min="20" max="800" step="10" /></div>
+              <div class="field"><label for="mic-cmk">Make-up gain <output id="mic-cmk-val"></output></label><input type="range" id="mic-cmk" min="0" max="24" step="0.5" /></div>
+              <div class="field"><label for="mic-deess">De-esser <output id="mic-deess-val"></output></label><input type="range" id="mic-deess" min="0" max="12" step="0.5" /></div>
+              <div class="field"><label for="mic-deess-hz">De-esser frequency <output id="mic-deess-hz-val"></output></label><input type="range" id="mic-deess-hz" min="3000" max="10000" step="100" /></div>
+              <div class="field"><label for="mic-ceil">Limiter ceiling <output id="mic-ceil-val"></output></label><input type="range" id="mic-ceil" min="-12" max="0" step="0.5" /></div>
+            </div>
+            <button class="ghost small" id="mic-reset">Reset to preset</button>
+          </details>
+
+          <article class="card">
+            <div class="card-head"><h2>Test your mic</h2><p class="muted">Record a few seconds, then compare the studio sound with the raw mic.</p></div>
+            <div class="test-row">
+              <button class="primary" id="mic-record"><svg><use href="#i-rec" /></svg><span>Record 6 s</span></button>
+              <button class="ghost" id="mic-play-studio" disabled><svg><use href="#i-play" /></svg>Studio</button>
+              <button class="ghost" id="mic-play-raw" disabled><svg><use href="#i-play" /></svg>Raw</button>
+              <span class="spacer"></span>
+              <label class="switch-row"><span>Listen live</span><input type="checkbox" class="switch" id="mic-listen" /></label>
+            </div>
+          </article>
+        </section>
+
+        <!-- ============================================ ChatMix -->
+        <section class="page" id="page-chatmix">
+          <header class="page-head">
+            <div>
+              <p class="eyebrow">Mixer</p>
+              <h1>ChatMix</h1>
+            </div>
+            <label class="switch-row big"><span id="cm-switch-label">Off</span><input type="checkbox" class="switch" id="cm-enabled" /></label>
+          </header>
+
+          <article class="card">
+            <p class="muted lead">ChatMix adds two outputs, <strong>Arctis Game</strong> and <strong>Arctis Chat</strong>. Send games and music to Game and your voice app to Chat, then balance them here or with the dial on the base station.</p>
+            <div class="mixer">
+              <div class="channel"><span>Game</span><div class="vbar"><i id="cm-game-bar"></i></div><output id="cm-game">100%</output></div>
+              <div class="mixer-mid">
+                <input type="range" id="cm-balance" min="-100" max="100" step="1" aria-label="Game / chat balance" />
+                <div class="mixer-labels"><span>More game</span><button class="link" id="cm-center">Center</button><span>More chat</span></div>
+              </div>
+              <div class="channel"><span>Chat</span><div class="vbar"><i id="cm-chat-bar"></i></div><output id="cm-chat">100%</output></div>
+            </div>
+          </article>
+
+          <div class="grid-2">
+            <article class="card">
+              <div class="card-head row"><h2>Follow the dial</h2><input type="checkbox" class="switch" id="cm-dial" aria-label="Follow the dial" /></div>
+              <p class="muted">Turning the ChatMix dial on the base station moves the balance.</p>
+            </article>
+            <article class="card">
+              <div class="card-head"><h2>Default output</h2><p class="muted" id="cm-default-now"></p></div>
+              <div class="seg" id="cm-default">
+                <button data-sink="game">Game</button>
+                <button data-sink="chat">Chat</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============================================ Headset -->
+        <section class="page" id="page-headset">
+          <header class="page-head">
+            <div>
+              <p class="eyebrow">Device</p>
+              <h1>Headset</h1>
+            </div>
+          </header>
+
+          <article class="card setting">
+            <div><h2>Sidetone</h2><p class="muted">Hear your own voice in the headset while you talk.</p></div>
+            <div class="seg" id="sidetone">
+              <button data-level="0">Off</button>
+              <button data-level="1">Low</button>
+              <button data-level="2">Medium</button>
+              <button data-level="3">High</button>
+            </div>
+          </article>
+
+          <article class="card setting">
+            <div><h2>Auto power off</h2><p class="muted">Turns the headset off after it has been idle.</p></div>
+            <select id="auto-off" aria-label="Auto power off">
+              <option value="0">Never</option>
+              <option value="1">After 1 minute</option>
+              <option value="2">After 5 minutes</option>
+              <option value="3">After 10 minutes</option>
+              <option value="4">After 15 minutes</option>
+              <option value="5">After 30 minutes</option>
+              <option value="6">After 60 minutes</option>
+            </select>
+          </article>
+
+          <article class="card setting">
+            <div><h2>Base station brightness</h2><p class="muted">OLED screen and lights.</p></div>
+            <div class="slider-inline"><input type="range" id="lights" min="1" max="10" step="1" aria-label="Brightness" /><output id="lights-val">5</output></div>
+          </article>
+
+          <article class="card setting">
+            <div><h2>Headset mic gain</h2><p class="muted">Analog gain in the headset, before any processing.</p></div>
+            <div class="slider-inline"><input type="range" id="hw-gain" min="1" max="10" step="1" aria-label="Mic gain" /><output id="hw-gain-val">10</output></div>
+          </article>
+        </section>
+
+        <!-- ============================================ Settings -->
+        <section class="page" id="page-settings">
+          <header class="page-head">
+            <div>
+              <p class="eyebrow">App</p>
+              <h1>Settings</h1>
+            </div>
+          </header>
+
+          <article class="card setting">
+            <div><h2>Start at login</h2><p class="muted">Runs in the tray so battery alerts and the ChatMix dial keep working.</p></div>
+            <input type="checkbox" class="switch" id="autostart" aria-label="Start at login" />
+          </article>
+
+          <article class="card setting">
+            <div><h2>Low battery alert</h2><p class="muted">Notify when the headset drops to this level.</p></div>
+            <div class="slider-inline"><input type="range" id="low-battery" min="5" max="50" step="5" aria-label="Low battery level" /><output id="low-battery-val">25%</output></div>
+          </article>
+
+          <article class="card setting">
+            <div><h2>Spare battery charged</h2><p class="muted">Notify when the battery in the base station is full.</p></div>
+            <input type="checkbox" class="switch" id="spare-notify" aria-label="Spare battery notification" />
+          </article>
+
+          <article class="card about">
+            <h2>About</h2>
+            <p class="muted">Talks to the base station directly over USB — no SteelSeries account, no telemetry. The studio mic and ChatMix run as small PipeWire services, so they keep working with this window closed.</p>
+            <dl class="facts">
+              <dt>Control node</dt><dd id="about-node">—</dd>
+              <dt>Battery estimate</dt><dd id="about-estimate">—</dd>
+              <dt>Last update</dt><dd id="about-updated">—</dd>
+            </dl>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+[package]
+name = "arctis-control"
+version = "0.1.0"
+edition = "2021"
+description = "Linux control panel for SteelSeries Arctis headsets (SteelSeries GG alternative)"
+license = "MIT"
+default-run = "arctis-control"
+
+# The LADSPA plugin with the mic chain's dynamics processors. Built next to the
+# binary as target/<profile>/libarctis_dsp.so; the app installs it on enable.
+[lib]
+name = "arctis_dsp"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "arctis-control"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+libc = "0.2"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
